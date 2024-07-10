@@ -3,6 +3,8 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
  */
 package cafebillingsystem.View;
+import javax.swing.JOptionPane;
+import java.util.Arrays;
 
 /**
  *
@@ -198,6 +200,18 @@ public class Signup extends javax.swing.JFrame {
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
+        if (newUsernameField.getText().isEmpty() || newPasswordField.getPassword().length == 0 || confirmPasswordField.getPassword().length == 0) {
+            JOptionPane.showMessageDialog(this, "All information is required", "Error", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (Arrays.equals(newPasswordField.getPassword(), confirmPasswordField.getPassword())) {
+                JOptionPane.showMessageDialog(this, "You are successfully registered as " + newUsernameField.getText(), "Successfully Registered", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                Login lg = new Login();
+                lg.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Passwords do not match", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+        }
     }//GEN-LAST:event_signupButtonActionPerformed
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
