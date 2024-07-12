@@ -4,6 +4,12 @@
  */
 package cafebillingsystem.View;
 
+import javax.swing.JOptionPane;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 /**
  *
  * @author Diwas
@@ -225,9 +231,33 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        this.dispose();
-        Dashboard db = new Dashboard();
-        db.setVisible(true);
+        try {
+            String url = "jdbc:mysql://localhost:3306/hamrocafe";
+            String userName = "root";
+            String password = "Bk2k5@#$";
+            Connection conn = DriverManager.getConnection(url, userName, password);
+            String query = "SELECT * FROM users";
+            Statement st = conn.createStatement();
+            ResultSet rs = st.executeQuery(query);
+            boolean loggedIn = false;
+            while (rs.next()) {
+                if (usernameTextField.getText().equals(rs.getString("username")) && new String(passwordField.getPassword()).equals(rs.getString("password"))) {
+                    loggedIn = true;
+                    break;
+                }
+            }
+            if (loggedIn) {
+                JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
+                this.dispose();
+                Dashboard db = new Dashboard();
+                db.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }//GEN-LAST:event_loginButtonActionPerformed
 
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
