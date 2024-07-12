@@ -7,7 +7,6 @@ package cafebillingsystem.View;
 import javax.swing.JOptionPane;
 import java.sql.Connection;
 import java.sql.DriverManager;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 /**
@@ -76,11 +75,9 @@ public class Login extends javax.swing.JFrame {
                 .addContainerGap(87, Short.MAX_VALUE))
         );
 
-        jPanel2.setBackground(new java.awt.Color(238, 238, 238));
         jPanel2.setBorder(javax.swing.BorderFactory.createMatteBorder(0, 0, 1, 0, new java.awt.Color(0, 0, 0)));
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Username");
 
         usernameTextField.setBackground(new java.awt.Color(238, 238, 238));
@@ -92,7 +89,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setForeground(new java.awt.Color(0, 0, 0));
         jLabel2.setText("Password");
 
         loginButton.setBackground(new java.awt.Color(0, 204, 204));
@@ -107,7 +103,6 @@ public class Login extends javax.swing.JFrame {
             }
         });
 
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Don't have an Account?");
 
         signupButton.setBackground(new java.awt.Color(255, 51, 204));
@@ -247,7 +242,6 @@ public class Login extends javax.swing.JFrame {
                 }
             }
             if (loggedIn) {
-                JOptionPane.showMessageDialog(this, "Login successful", "Success", JOptionPane.INFORMATION_MESSAGE);
                 this.dispose();
                 Dashboard db = new Dashboard();
                 db.setVisible(true);

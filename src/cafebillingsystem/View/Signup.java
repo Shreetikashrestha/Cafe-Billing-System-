@@ -8,7 +8,6 @@ import java.util.Arrays;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import java.sql.Statement;
 /**
  *
@@ -17,7 +16,7 @@ import java.sql.Statement;
 public class Signup extends javax.swing.JFrame {
 
     /**
-     * Creates new form Sign up
+     * Creates new form Signup
      */
     public Signup() {
         initComponents();

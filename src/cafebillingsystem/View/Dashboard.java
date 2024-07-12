@@ -13,6 +13,14 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import javax.imageio.ImageIO;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.Statement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  *
@@ -25,6 +33,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
+        fetchAndSetPrices();
     }
     //Remove the border of the entry
     Border bottomBorder = new MatteBorder(0, 0, 0, 0, Color.white);
@@ -68,24 +77,24 @@ public class Dashboard extends javax.swing.JFrame {
         jLabel15 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         momoLabel = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        momo_price = new javax.swing.JLabel();
         momoComboBox = new javax.swing.JComboBox<>();
         coffeeLabel = new javax.swing.JLabel();
         coffeeComboBox = new javax.swing.JComboBox<>();
-        jLabel12 = new javax.swing.JLabel();
+        coffee_price = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
         cokeComboBox = new javax.swing.JComboBox<>();
         teaLabel = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
+        tea_price = new javax.swing.JLabel();
         teaComboBox = new javax.swing.JComboBox<>();
         cokeLabel = new javax.swing.JLabel();
-        jLabel11 = new javax.swing.JLabel();
+        coke_price = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         burgerLabel = new javax.swing.JLabel();
         grilledchickenLabel = new javax.swing.JLabel();
         burgerComboBox = new javax.swing.JComboBox<>();
-        jLabel10 = new javax.swing.JLabel();
-        jLabel13 = new javax.swing.JLabel();
+        grilled_chicken_price = new javax.swing.JLabel();
+        burger_price = new javax.swing.JLabel();
         grilledchickenComboBox = new javax.swing.JComboBox<>();
         jLabel16 = new javax.swing.JLabel();
 
@@ -288,9 +297,9 @@ public class Dashboard extends javax.swing.JFrame {
         momoLabel.setMinimumSize(new java.awt.Dimension(150, 150));
         momoLabel.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jLabel9.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel9.setText("$200");
+        momo_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        momo_price.setForeground(new java.awt.Color(0, 0, 0));
+        momo_price.setText("$200");
 
         momoComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" }));
         momoComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -304,9 +313,9 @@ public class Dashboard extends javax.swing.JFrame {
         coffeeComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" }));
         coffeeComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel12.setText("$100");
+        coffee_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        coffee_price.setForeground(new java.awt.Color(0, 0, 0));
+        coffee_price.setText("$100");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -316,10 +325,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel12)
+                        .addComponent(coffee_price)
                         .addGap(58, 58, 58))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jLabel9)
+                        .addComponent(momo_price)
                         .addGap(52, 52, 52))
                     .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(coffeeComboBox, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
@@ -334,13 +343,13 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(momoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel9)
+                .addComponent(momo_price)
                 .addGap(18, 18, 18)
                 .addComponent(momoComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(coffeeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel12)
+                .addComponent(coffee_price)
                 .addGap(7, 7, 7)
                 .addComponent(coffeeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -355,10 +364,10 @@ public class Dashboard extends javax.swing.JFrame {
         teaLabel.setMinimumSize(new java.awt.Dimension(150, 150));
         teaLabel.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jLabel8.setBackground(new java.awt.Color(0, 0, 0));
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel8.setText("$50");
+        tea_price.setBackground(new java.awt.Color(0, 0, 0));
+        tea_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        tea_price.setForeground(new java.awt.Color(0, 0, 0));
+        tea_price.setText("$50");
 
         teaComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" }));
         teaComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -369,9 +378,9 @@ public class Dashboard extends javax.swing.JFrame {
         cokeLabel.setMinimumSize(new java.awt.Dimension(150, 150));
         cokeLabel.setPreferredSize(new java.awt.Dimension(150, 150));
 
-        jLabel11.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel11.setText("$50");
+        coke_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        coke_price.setForeground(new java.awt.Color(0, 0, 0));
+        coke_price.setText("$50");
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -382,10 +391,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(50, 50, 50)
-                        .addComponent(jLabel11))
+                        .addComponent(coke_price))
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGap(41, 41, 41)
-                        .addComponent(jLabel8))
+                        .addComponent(tea_price))
                     .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(teaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, 149, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -403,13 +412,13 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(teaLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel8)
+                .addComponent(tea_price)
                 .addGap(18, 18, 18)
                 .addComponent(teaComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(cokeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel11)
+                .addComponent(coke_price)
                 .addGap(7, 7, 7)
                 .addComponent(cokeComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -430,13 +439,13 @@ public class Dashboard extends javax.swing.JFrame {
         burgerComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" }));
         burgerComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
 
-        jLabel10.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel10.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel10.setText("$500");
+        grilled_chicken_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        grilled_chicken_price.setForeground(new java.awt.Color(0, 0, 0));
+        grilled_chicken_price.setText("$500");
 
-        jLabel13.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
-        jLabel13.setForeground(new java.awt.Color(0, 0, 0));
-        jLabel13.setText("$300");
+        burger_price.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        burger_price.setForeground(new java.awt.Color(0, 0, 0));
+        burger_price.setText("$300");
 
         grilledchickenComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25" }));
         grilledchickenComboBox.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -449,10 +458,10 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel13)
+                        .addComponent(burger_price)
                         .addGap(50, 50, 50))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
-                        .addComponent(jLabel10)
+                        .addComponent(grilled_chicken_price)
                         .addGap(56, 56, 56))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -468,13 +477,13 @@ public class Dashboard extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(grilledchickenLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel10)
+                .addComponent(grilled_chicken_price)
                 .addGap(18, 18, 18)
                 .addComponent(grilledchickenComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(burgerLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel13)
+                .addComponent(burger_price)
                 .addGap(7, 7, 7)
                 .addComponent(burgerComboBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -531,6 +540,36 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+//    // Method to fetch and set prices from the database
+    private void fetchAndSetPrices() {
+        try {
+            String url = "jdbc:mysql://localhost:3306/hamrocafe";
+            String userName = "root";
+            String password = "Bk2k5@#$";
+            Connection conn = DriverManager.getConnection(url, userName, password);
+
+            String[] products = {"tea", "momo", "grilled_chicken", "coke", "coffee", "burger"};
+            JLabel[] labels = {tea_price, momo_price, grilled_chicken_price, coke_price, coffee_price, burger_price};
+
+            for (int i = 0; i < products.length; i++) {
+                String fetchQuery = "SELECT product_price FROM products WHERE product_name = ?";
+                PreparedStatement fetchStmt = conn.prepareStatement(fetchQuery);
+                fetchStmt.setString(1, products[i]);
+                ResultSet rs = fetchStmt.executeQuery();
+
+                if (rs.next()) {
+                    int price = rs.getInt("product_price");
+                    labels[i].setText("$" + price);
+                }
+            }
+
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle SQL exceptions
+        }
+    }
+    
     private void viewButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_viewButtonActionPerformed
         // TODO add your handling code here:
         billPanel.removeAll();
@@ -620,7 +659,6 @@ public class Dashboard extends javax.swing.JFrame {
         brandName.setForeground(new Color(76,175,80));
         brandName.setBounds(125, 20, 500, 25);
         billPanel.add(brandName);
-
         billPanel.revalidate();
         billPanel.repaint();
     }//GEN-LAST:event_calculateButtonActionPerformed
@@ -629,7 +667,6 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         billPanel.removeAll();
         billPanel.setBackground(Color.yellow);
-        
         
         // Label for select item and Set pRICE
         JLabel selectItemLabel = new JLabel("Select Item");
@@ -662,7 +699,56 @@ public class Dashboard extends javax.swing.JFrame {
         updateButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         updateButton.setBorder(bottomBorder);
         billPanel.add(updateButton);
+        
+        
+        // Event listener for Update button to update the price
+        updateButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String selectedItem = (String) editPriceComboBox.getSelectedItem();
+                int newPrice = Integer.parseInt(setPriceTextField.getText());
+                try {
+                    String url = "jdbc:mysql://localhost:3306/hamrocafe";
+                    String userName = "root";
+                    String password = "Bk2k5@#$";
+                    Connection conn = DriverManager.getConnection(url, userName, password);
 
+                    String query = "UPDATE products SET product_price = ? WHERE product_name = ?";
+                    PreparedStatement pstm = conn.prepareStatement(query);
+                    pstm.setInt(1, newPrice);
+                    pstm.setString(2, selectedItem.toLowerCase().replace(" ", "_"));
+                    pstm.executeUpdate();
+                    // Update GUI labels based on product name
+                    switch (selectedItem) {
+                        case "Tea":
+                            tea_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        case "Momo":
+                            momo_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        case "Grilled Chicken":
+                            grilled_chicken_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        case "Coke":
+                            coke_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        case "Coffee":
+                            coffee_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        case "Burger":
+                            burger_price.setText("$" + String.valueOf(newPrice));
+                            break;
+                        default:
+                            break;
+                    }
+                    // Clear the set price text field
+                    setPriceTextField.setText("");
+                    conn.close();
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
+            }
+        });
+        
         billPanel.revalidate();
         billPanel.repaint();
     }//GEN-LAST:event_editButtonActionPerformed
@@ -709,27 +795,25 @@ public class Dashboard extends javax.swing.JFrame {
     private javax.swing.JPanel billPanel;
     private javax.swing.JComboBox<String> burgerComboBox;
     private javax.swing.JLabel burgerLabel;
+    protected javax.swing.JLabel burger_price;
     private javax.swing.ButtonGroup buttonGroup1;
     private javax.swing.JButton calculateButton;
     private javax.swing.JButton clearButton;
     private javax.swing.JComboBox<String> coffeeComboBox;
     private javax.swing.JLabel coffeeLabel;
+    protected javax.swing.JLabel coffee_price;
     private javax.swing.JComboBox<String> cokeComboBox;
     private javax.swing.JLabel cokeLabel;
+    protected javax.swing.JLabel coke_price;
     private javax.swing.JButton deleteButton;
     private javax.swing.JButton editButton;
+    protected javax.swing.JLabel grilled_chicken_price;
     private javax.swing.JComboBox<String> grilledchickenComboBox;
     private javax.swing.JLabel grilledchickenLabel;
     private javax.swing.JDialog jDialog1;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
-    private javax.swing.JLabel jLabel11;
-    private javax.swing.JLabel jLabel12;
-    private javax.swing.JLabel jLabel13;
     private javax.swing.JLabel jLabel15;
     private javax.swing.JLabel jLabel16;
-    private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -750,11 +834,13 @@ public class Dashboard extends javax.swing.JFrame {
     private java.awt.MenuBar menuBar5;
     private javax.swing.JComboBox<String> momoComboBox;
     private javax.swing.JLabel momoLabel;
+    protected javax.swing.JLabel momo_price;
     private java.awt.PopupMenu popupMenu1;
     private javax.swing.JPanel rightPanel;
     private javax.swing.JButton saveButton;
     private javax.swing.JComboBox<String> teaComboBox;
     private javax.swing.JLabel teaLabel;
+    protected javax.swing.JLabel tea_price;
     private javax.swing.JButton viewButton;
     // End of variables declaration//GEN-END:variables
 }
