@@ -226,7 +226,10 @@ public class Login extends javax.swing.JFrame {
 
     private void loginButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginButtonActionPerformed
         // TODO add your handling code here:
-        try {
+        if(usernameTextField.getText().isEmpty()|| passwordField.getPassword().length==0){
+            JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);
+        }else{
+           try {
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
@@ -249,8 +252,9 @@ public class Login extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);
             }
             conn.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+           } catch (Exception e) {
+               e.printStackTrace();
+           } 
         }
     }//GEN-LAST:event_loginButtonActionPerformed
 

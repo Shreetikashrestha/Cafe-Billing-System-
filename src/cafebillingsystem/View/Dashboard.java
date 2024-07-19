@@ -21,6 +21,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Random;
 
 /**
  *
@@ -33,6 +34,7 @@ public class Dashboard extends javax.swing.JFrame {
      */
     public Dashboard() {
         initComponents();
+        createProductTable();
         fetchAndSetPrices();
     }
     //Remove the border of the entry
@@ -540,7 +542,60 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-//    // Method to fetch and set prices from the database
+    public String generateBillNumber() {
+    Random random = new Random();
+    int randomNumber = random.nextInt(1000, 100000);
+    char randomAlphabet = (char) ('A' + random.nextInt(26));
+    return String.format("%d%c", randomNumber, randomAlphabet);
+    
+    }
+    public void createProductTable() {
+        try {
+            String url = "jdbc:mysql://localhost:3306/hamrocafe";
+            String userName = "root";
+            String password = "Bk2k5@#$";
+            Connection conn = DriverManager.getConnection(url, userName, password);
+            Statement st = conn.createStatement();
+
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS products (product_id INT PRIMARY KEY, product_name VARCHAR(50), product_price INT)";
+            st.executeUpdate(createTableQuery);
+
+            // Check if the 'products' table contains any records
+            String checkRecordsQuery = "SELECT COUNT(*) FROM products";
+            ResultSet rs = st.executeQuery(checkRecordsQuery);
+            rs.next();
+            int count = rs.getInt(1);
+
+            if (count == 0) {
+                // Arrays for product id, name, and price
+                int[] productId = {101, 102, 103, 104, 105, 106};
+                String[] productName = {"tea", "momo", "grilled_chicken", "coke", "coffee", "burger"};
+                int[] productPrice = {50, 200, 300, 50, 100, 400};
+
+                // Prepare the SQL insert query
+                String insertQuery = "INSERT INTO products(product_id, product_name, product_price) VALUES (?, ?, ?)";
+                PreparedStatement pstm = conn.prepareStatement(insertQuery);
+
+                // Looping the arrays and insert each product
+                int len = productId.length;
+                for (int i = 0; i <=len-1; i++) {
+                    pstm.setInt(1, productId[i]);
+                    pstm.setString(2, productName[i]);
+                    pstm.setInt(3, productPrice[i]);
+                    pstm.addBatch();
+                }
+
+                // Execute the batch of inserts
+                pstm.executeBatch();
+            }
+
+            conn.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    
+    
     private void fetchAndSetPrices() {
         try {
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
@@ -566,7 +621,6 @@ public class Dashboard extends javax.swing.JFrame {
             conn.close();
         } catch (SQLException ex) {
             ex.printStackTrace();
-            // Handle SQL exceptions
         }
     }
     
@@ -625,15 +679,17 @@ public class Dashboard extends javax.swing.JFrame {
                 if (!directory.exists()) {
                     directory.mkdir();
                 }
-
+                // Generate bill number
+                String billNumber = generateBillNumber();
                 // Save the image in the folder
-                File file = new File(directory, "billPanelImage.png");
+                File file = new File(directory, "Bill_" + billNumber + ".png");
                 ImageIO.write(image, "png", file);
                 System.out.println("Image saved to: " + file.getAbsolutePath());
             } catch (IOException e) {
                 e.printStackTrace();
             }
         });
+        JOptionPane.showMessageDialog(this, "Saved!", "Done", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
@@ -653,12 +709,96 @@ public class Dashboard extends javax.swing.JFrame {
         // TODO add your handling code here:
         billPanel.removeAll();
         billPanel.setBackground(Color.white);
+
         // Brand Name
         JLabel brandName = new JLabel("Hamro Cafe");
         brandName.setFont(new Font("Times New Roman", Font.BOLD, 20));
-        brandName.setForeground(new Color(76,175,80));
+        brandName.setForeground(new Color(76, 175, 80));
         brandName.setBounds(125, 20, 500, 25);
         billPanel.add(brandName);
+
+        // Generate random bill number (e.g., 2345X, 5647Y)
+        String billNumber = generateBillNumber();
+        System.out.println("Generated Bill Number: " + billNumber);
+
+        JLabel billNoLabel = new JLabel("Bill No: " + billNumber);
+        billNoLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        billNoLabel.setBounds(50, 50, 150, 20);
+        billPanel.add(billNoLabel);
+
+        // Headline for Items and Prices
+        JLabel itemLabel = new JLabel("Item");
+        itemLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        itemLabel.setBounds(50, 75, 100, 20);
+        billPanel.add(itemLabel);
+
+        JLabel quantityLabel = new JLabel("Quantity");
+        quantityLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        quantityLabel.setBounds(170, 75, 100, 20);
+        billPanel.add(quantityLabel);
+
+        JLabel priceLabel = new JLabel("Price");
+        priceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        priceLabel.setBounds(275, 75, 100, 20);
+        billPanel.add(priceLabel);
+
+        // Fetch prices from database and calculate total price for each item
+        String[] items = {"tea", "momo", "grilled_chicken", "coke", "coffee", "burger"};
+        int[] quantities = {teaComboBox.getSelectedIndex(), momoComboBox.getSelectedIndex(), grilledchickenComboBox.getSelectedIndex(), cokeComboBox.getSelectedIndex(), coffeeComboBox.getSelectedIndex(), burgerComboBox.getSelectedIndex()};
+        int[] prices = new int[items.length];
+        int[] totalPrices = new int[items.length];
+
+        try {
+            // Establish database connection
+            String url = "jdbc:mysql://localhost:3306/hamrocafe";
+            String userName = "root";
+            String password = "Bk2k5@#$";
+            Connection conn = DriverManager.getConnection(url, userName, password);
+
+            // Query to fetch prices for items
+            for (int i = 0; i < items.length; i++) {
+                String query = "SELECT product_price FROM products WHERE product_name = ?";
+                PreparedStatement pstmt = conn.prepareStatement(query);
+                pstmt.setString(1, items[i]);
+                ResultSet rs = pstmt.executeQuery();
+                if (rs.next()) {
+                    prices[i] = rs.getInt("product_price");
+                    totalPrices[i] = quantities[i] * prices[i];
+
+                    // Display item, quantity, price, and total price
+                    JLabel itemNameLabel = new JLabel(items[i]);
+                    itemNameLabel.setBounds(50, 100 + i * 25, 100, 20);
+                    billPanel.add(itemNameLabel);
+
+                    JLabel itemQuantityLabel = new JLabel(String.valueOf(quantities[i]));
+                    itemQuantityLabel.setBounds(175, 100 + i * 25, 100, 20);
+                    billPanel.add(itemQuantityLabel);
+
+                    JLabel itemPriceLabel = new JLabel(String.valueOf(totalPrices[i]));
+                    itemPriceLabel.setBounds(275, 100 + i * 25, 100, 20);
+                    billPanel.add(itemPriceLabel);
+                    
+                }
+                pstmt.close();
+                rs.close();
+            }
+            conn.close();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+            // Handle SQLException as needed
+        }
+        // Calculate total price
+        int totalPrice = 0;
+        for (int i = 0; i < totalPrices.length; i++) {
+            totalPrice += totalPrices[i];
+        }
+        // Display total price
+        JLabel totalPriceLabel = new JLabel("Total Price: $" + totalPrice);
+        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        totalPriceLabel.setBounds(225, 275, 150, 20);
+        billPanel.add(totalPriceLabel);
+
+        // Refresh billPanel
         billPanel.revalidate();
         billPanel.repaint();
     }//GEN-LAST:event_calculateButtonActionPerformed
@@ -711,7 +851,6 @@ public class Dashboard extends javax.swing.JFrame {
                     String userName = "root";
                     String password = "Bk2k5@#$";
                     Connection conn = DriverManager.getConnection(url, userName, password);
-
                     String query = "UPDATE products SET product_price = ? WHERE product_name = ?";
                     PreparedStatement pstm = conn.prepareStatement(query);
                     pstm.setInt(1, newPrice);
