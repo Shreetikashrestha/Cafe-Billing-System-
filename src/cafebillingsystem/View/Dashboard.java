@@ -663,6 +663,7 @@ public class Dashboard extends javax.swing.JFrame {
         deleteButton.setBorder(bottomBorder);
         billPanel.add(deleteButton);
         // Add action listener for deleteButton
+        //Deleting all the details of bills based on the unique billNumber that is generated auto
         deleteButton.addActionListener(e -> {
             String billNumber = billNoTextField.getText().trim();
             if (billNumber.isEmpty()) {
