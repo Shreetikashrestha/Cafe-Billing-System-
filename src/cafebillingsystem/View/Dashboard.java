@@ -22,6 +22,7 @@ import java.sql.SQLException;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Random;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -542,6 +543,7 @@ public class Dashboard extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private int totalPrice;
     public String generateBillNumber() {
     Random random = new Random();
     int randomNumber = random.nextInt(1000, 100000);
@@ -660,13 +662,87 @@ public class Dashboard extends javax.swing.JFrame {
         deleteButton.setCursor(new Cursor(Cursor.HAND_CURSOR));
         deleteButton.setBorder(bottomBorder);
         billPanel.add(deleteButton);
-        
+        // Add action listener for deleteButton
+        deleteButton.addActionListener(e -> {
+            String billNumber = billNoTextField.getText().trim();
+            if (billNumber.isEmpty()) {
+                JOptionPane.showMessageDialog(billPanel, "Bill Number cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+            String url = "jdbc:mysql://localhost:3306/hamrocafe";
+            String userName = "root";
+            String password = "Bk2k5@#$";
+            try (Connection conn = DriverManager.getConnection(url, userName, password)) {
+                String deleteQuery = "DELETE FROM bills WHERE billNo = ?";
+                try (PreparedStatement pstm = conn.prepareStatement(deleteQuery)) {
+                pstm.setString(1, billNumber);
+                int rowsAffected = pstm.executeUpdate();
+                if (rowsAffected > 0) {
+                    JOptionPane.showMessageDialog(billPanel, "Bill deleted successfully.", "Success", JOptionPane.INFORMATION_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(billPanel, "No bill found with the given Bill Number.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                }
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(billPanel, "Error deleting bill!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        });
+
         billPanel.revalidate();
         billPanel.repaint();
     }//GEN-LAST:event_deleteButtonActionPerformed
 
     private void saveButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_saveButtonActionPerformed
         // TODO add your handling code here:
+        try {
+        String url = "jdbc:mysql://localhost:3306/hamrocafe";
+        String userName = "root";
+        String password = "Bk2k5@#$";
+        Connection conn = DriverManager.getConnection(url, userName, password);
+
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS bills ("
+                + "billNo VARCHAR(10) PRIMARY KEY, "
+                + "tea INT, "
+                + "momo INT, "
+                + "grilled_chicken INT, "
+                + "coke INT, "
+                + "coffee INT, "
+                + "burger INT, "
+                + "total_quantity INT, "
+                + "total_price INT)";
+        Statement st = conn.createStatement();
+        st.executeUpdate(createTableQuery);
+
+        String billNumber = generateBillNumber();
+        int teaQty = teaComboBox.getSelectedIndex();
+        int momoQty = momoComboBox.getSelectedIndex();
+        int grilledChickenQty = grilledchickenComboBox.getSelectedIndex();
+        int cokeQty = cokeComboBox.getSelectedIndex();
+        int coffeeQty = coffeeComboBox.getSelectedIndex();
+        int burgerQty = burgerComboBox.getSelectedIndex();
+        int totalQty = teaQty + momoQty + grilledChickenQty + cokeQty + coffeeQty + burgerQty;
+        
+        // Insert data into bills table
+        String insertQuery = "INSERT INTO bills(billNo, tea, momo, grilled_chicken, coke, coffee, burger, total_quantity, total_price) "
+                + "VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+        PreparedStatement pstm = conn.prepareStatement(insertQuery);
+        pstm.setString(1, billNumber);
+        pstm.setInt(2, teaQty);
+        pstm.setInt(3, momoQty);
+        pstm.setInt(4, grilledChickenQty);
+        pstm.setInt(5, cokeQty);
+        pstm.setInt(6, coffeeQty);
+        pstm.setInt(7, burgerQty);
+        pstm.setInt(8, totalQty);
+        pstm.setInt(9, totalPrice); // Ensure totalPrice is correctly set from calculateButtonActionPerformed
+        pstm.executeUpdate();
+
+        conn.close();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error saving data!", "Error", JOptionPane.ERROR_MESSAGE);
+        }
         // Capture and save image
         SwingUtilities.invokeLater(() -> {
             try {
@@ -788,7 +864,7 @@ public class Dashboard extends javax.swing.JFrame {
             // Handle SQLException as needed
         }
         // Calculate total price
-        int totalPrice = 0;
+        totalPrice = 0;
         for (int i = 0; i < totalPrices.length; i++) {
             totalPrice += totalPrices[i];
         }
