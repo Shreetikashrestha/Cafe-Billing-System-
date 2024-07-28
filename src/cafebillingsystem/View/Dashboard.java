@@ -722,6 +722,7 @@ public class Dashboard extends javax.swing.JFrame {
         pstm.setInt(8, totalQty);
         pstm.setInt(9, totalPrice); // Ensure totalPrice is correctly set from calculateButtonActionPerformed
         pstm.executeUpdate();
+        JOptionPane.showMessageDialog(this, "Data saved!", "Done", JOptionPane.INFORMATION_MESSAGE);
 
         conn.close();
         } catch (SQLException e) {
@@ -750,7 +751,7 @@ public class Dashboard extends javax.swing.JFrame {
                 e.printStackTrace();
             }
         });
-        JOptionPane.showMessageDialog(this, "Saved!", "Done", JOptionPane.INFORMATION_MESSAGE);
+        JOptionPane.showMessageDialog(this, "Image saved!", "Done", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_saveButtonActionPerformed
 
     private void clearButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_clearButtonActionPerformed
