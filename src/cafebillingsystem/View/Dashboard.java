@@ -553,6 +553,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
     public void createProductTable() {
         try {
+            // database connection and credentials
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
@@ -597,6 +598,7 @@ public class Dashboard extends javax.swing.JFrame {
     
     private void fetchAndSetPrices() {
         try {
+            // database connection and credentials
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
@@ -667,6 +669,7 @@ public class Dashboard extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(billPanel, "Bill Number cannot be empty.", "Error", JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            // database connection and credentials
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
@@ -683,7 +686,7 @@ public class Dashboard extends javax.swing.JFrame {
                 }
             } catch (SQLException ex) {
                 ex.printStackTrace();
-                JOptionPane.showMessageDialog(billPanel, "Error deleting bill!", "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(billPanel, "Error deleting bill!", "Error", JOptionPane.ERROR_MESSAGE); // shows error if there is problem in saving data to the database
             }
         });
 
@@ -762,7 +765,7 @@ public class Dashboard extends javax.swing.JFrame {
         cokeComboBox.setSelectedIndex(0);
         coffeeComboBox.setSelectedIndex(0);
         burgerComboBox.setSelectedIndex(0);
-        billPanel.removeAll();
+        billPanel.removeAll(); // clears the content og the panel
         billPanel.revalidate();
         billPanel.repaint();
     }//GEN-LAST:event_clearButtonActionPerformed
@@ -811,13 +814,13 @@ public class Dashboard extends javax.swing.JFrame {
         int[] totalPrices = new int[items.length];
 
         try {
-            // Establish database connection
+            // database connection and credentials
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
             Connection conn = DriverManager.getConnection(url, userName, password);
 
-            // Query to fetch prices for items
+            // Query to fetch prices for items using for loop
             for (int i = 0; i < items.length; i++) {
                 String query = "SELECT product_price FROM products WHERE product_name = ?";
                 PreparedStatement pstmt = conn.prepareStatement(query);
@@ -849,7 +852,7 @@ public class Dashboard extends javax.swing.JFrame {
             ex.printStackTrace();
             // Handle SQLException as needed
         }
-        // Calculate total price
+        // Calculate total price suing for loop
         totalPrice = 0;
         for (int i = 0; i < totalPrices.length; i++) {
             totalPrice += totalPrices[i];
@@ -909,6 +912,7 @@ public class Dashboard extends javax.swing.JFrame {
                 String selectedItem = (String) editPriceComboBox.getSelectedItem();
                 int newPrice = Integer.parseInt(setPriceTextField.getText());
                 try {
+                    // database connection and credentials
                     String url = "jdbc:mysql://localhost:3306/hamrocafe";
                     String userName = "root";
                     String password = "Bk2k5@#$";
@@ -918,7 +922,7 @@ public class Dashboard extends javax.swing.JFrame {
                     pstm.setInt(1, newPrice);
                     pstm.setString(2, selectedItem.toLowerCase().replace(" ", "_"));
                     pstm.executeUpdate();
-                    // Update GUI labels based on product name
+                    // Update GUI labels based on product name using the switch statements
                     switch (selectedItem) {
                         case "Tea":
                             tea_price.setText("$" + String.valueOf(newPrice));

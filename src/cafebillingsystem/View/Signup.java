@@ -209,6 +209,7 @@ public class Signup extends javax.swing.JFrame {
         } else {
             if (Arrays.equals(newPasswordField.getPassword(), confirmPasswordField.getPassword())) {
                 try {
+                    // database connection and credentials
                     String url = "jdbc:mysql://localhost:3306/hamrocafe";
                     String userName = "root";
                     String password = "Bk2k5@#$";

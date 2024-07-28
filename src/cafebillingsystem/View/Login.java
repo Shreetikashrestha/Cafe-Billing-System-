@@ -230,6 +230,7 @@ public class Login extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Invalid credentials", "Error", JOptionPane.ERROR_MESSAGE);
         }else{
            try {
+            // database connection and credentials
             String url = "jdbc:mysql://localhost:3306/hamrocafe";
             String userName = "root";
             String password = "Bk2k5@#$";
