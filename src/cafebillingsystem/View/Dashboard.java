@@ -559,9 +559,6 @@ public class Dashboard extends javax.swing.JFrame {
             Connection conn = DriverManager.getConnection(url, userName, password);
             Statement st = conn.createStatement();
 
-            String createTableQuery = "CREATE TABLE IF NOT EXISTS products (product_id INT PRIMARY KEY, product_name VARCHAR(50), product_price INT)";
-            st.executeUpdate(createTableQuery);
-
             // Check if the 'products' table contains any records
             String checkRecordsQuery = "SELECT COUNT(*) FROM products";
             ResultSet rs = st.executeQuery(checkRecordsQuery);
@@ -701,19 +698,6 @@ public class Dashboard extends javax.swing.JFrame {
         String userName = "root";
         String password = "Bk2k5@#$";
         Connection conn = DriverManager.getConnection(url, userName, password);
-
-        String createTableQuery = "CREATE TABLE IF NOT EXISTS bills ("
-                + "billNo VARCHAR(10) PRIMARY KEY, "
-                + "tea INT, "
-                + "momo INT, "
-                + "grilled_chicken INT, "
-                + "coke INT, "
-                + "coffee INT, "
-                + "burger INT, "
-                + "total_quantity INT, "
-                + "total_price INT)";
-        Statement st = conn.createStatement();
-        st.executeUpdate(createTableQuery);
 
         String billNumber = generateBillNumber();
         int teaQty = teaComboBox.getSelectedIndex();

@@ -24,6 +24,7 @@ public class BillDetails extends javax.swing.JFrame {
         setSize(800, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setResizable(false); 
 
         // Create a panel for the content
         JPanel panel = new JPanel();
