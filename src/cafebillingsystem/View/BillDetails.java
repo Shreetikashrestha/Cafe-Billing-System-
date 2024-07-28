@@ -1,5 +1,6 @@
 package cafebillingsystem.View;
 import java.awt.*;
+import java.sql.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -15,6 +16,7 @@ public class BillDetails extends javax.swing.JFrame {
 
     public BillDetails() {
         initComponents();
+        loadData();
     }
 
     private void initComponents() {
@@ -57,7 +59,54 @@ public class BillDetails extends javax.swing.JFrame {
         // Add panel to the frame
         add(panel);
     }
-    public static void main(String args[]) {
 
+    private void loadData() {
+        String url = "jdbc:mysql://localhost:3306/hamrocafe";
+        String userName = "root";
+        String password = "Bk2k5@#$";
+
+        try (Connection conn = DriverManager.getConnection(url, userName, password)) {
+            System.out.println("Database connection successful!");
+
+            String query = "SELECT * FROM bills";
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+
+            while (rs.next()) {
+                String billNo = rs.getString("billNo");
+                int tea = rs.getInt("tea");
+                int momo = rs.getInt("momo");
+                int grilledChicken = rs.getInt("grilled_chicken");
+                int coke = rs.getInt("coke");
+                int coffee = rs.getInt("coffee");
+                int burger = rs.getInt("burger");
+                int totalQuantity = rs.getInt("total_quantity");
+                int totalPrice = rs.getInt("total_price");
+
+                tableModel.addRow(new Object[]{billNo, tea, momo, grilledChicken, coke, coffee, burger, totalQuantity, totalPrice});
+            }
+
+        } catch (SQLException ex) {
+            System.out.println("Error loading data!");
+            ex.printStackTrace(); // Print stack trace for debugging
+            JOptionPane.showMessageDialog(this, "Error loading data! " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    public static void main(String args[]) {
+        /* Set the Nimbus look and feel */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(BillDetails.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(() -> new BillDetails().setVisible(true));
     }
 }
