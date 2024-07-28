@@ -33,7 +33,7 @@ public class BillDetails extends javax.swing.JFrame {
 
         // Customize the table header
         JTableHeader header = billTable.getTableHeader();
-        header.setBackground(Color.BLUE); // Sets the header background to the predefined green color
+        header.setBackground(Color.GREEN); // Sets the header background to the predefined green color
 
         header.setForeground(Color.BLACK); // Optional: Set header text color
 
