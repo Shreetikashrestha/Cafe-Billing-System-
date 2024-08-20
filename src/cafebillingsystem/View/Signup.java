@@ -200,7 +200,20 @@ public class Signup extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    public void createDatabase(){
+            try {
+                    String url = "jdbc:mysql://localhost:3306";
+                    String userName = "root";
+                    String password = "Bk2k5@#$";
+                    Connection conn = DriverManager.getConnection(url, userName, password);
+                    Statement st = conn.createStatement();
+                    String query = "CREATE DATABASE IF NOT EXISTS hamrocafe";
+                    st.executeUpdate(query);
+                    conn.close();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+        }
     
     private void signupButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_signupButtonActionPerformed
         // TODO add your handling code here:
@@ -208,6 +221,7 @@ public class Signup extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "All information is required", "Error", JOptionPane.WARNING_MESSAGE);
         } else {
             if (Arrays.equals(newPasswordField.getPassword(), confirmPasswordField.getPassword())) {
+                createDatabase();
                 try {
                     // database connection and credentials
                     String url = "jdbc:mysql://localhost:3306/hamrocafe";
@@ -215,6 +229,8 @@ public class Signup extends javax.swing.JFrame {
                     String password = "Bk2k5@#$";
                     Connection conn = DriverManager.getConnection(url, userName, password);
                     Statement st = conn.createStatement();
+                    String query = "CREATE TABLE IF NOT EXISTS users(username VARCHAR(50) PRIMARY KEY, password VARCHAR(50))";
+                    st.executeUpdate(query);
                     String insertQuery = "INSERT INTO users(username, password) VALUES (?, ?)";
                     PreparedStatement pstm = conn.prepareStatement(insertQuery);
                     pstm.setString(1, newUsernameField.getText());

@@ -77,6 +77,7 @@ public class Dashboard extends javax.swing.JFrame {
         saveButton = new javax.swing.JButton();
         deleteButton = new javax.swing.JButton();
         viewButton = new javax.swing.JButton();
+        QRcodeButton = new javax.swing.JButton();
         jLabel15 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         momoLabel = new javax.swing.JLabel();
@@ -242,18 +243,34 @@ public class Dashboard extends javax.swing.JFrame {
             }
         });
 
+        QRcodeButton.setBackground(new java.awt.Color(51, 204, 255));
+        QRcodeButton.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
+        QRcodeButton.setForeground(new java.awt.Color(255, 255, 255));
+        QRcodeButton.setBorderPainted(false);
+        QRcodeButton.setText("QR");
+        QRcodeButton.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        QRcodeButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                QRcodeButtonActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout rightPanelLayout = new javax.swing.GroupLayout(rightPanel);
         rightPanel.setLayout(rightPanelLayout);
         rightPanelLayout.setHorizontalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(rightPanelLayout.createSequentialGroup()
+                .addGap(59, 59, 59)
+                .addComponent(jLabel1)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
                 .addContainerGap(18, Short.MAX_VALUE)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(88, 88, 88))
+                        .addComponent(saveButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(28, 28, 28)
+                        .addComponent(clearButton, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(86, 86, 86))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
                         .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(billPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -264,17 +281,16 @@ public class Dashboard extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(calculateButton, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(deleteButton, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(QRcodeButton, javax.swing.GroupLayout.PREFERRED_SIZE, 58, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18))))
-            .addGroup(rightPanelLayout.createSequentialGroup()
-                .addGap(59, 59, 59)
-                .addComponent(jLabel1)
-                .addGap(0, 0, Short.MAX_VALUE))
         );
         rightPanelLayout.setVerticalGroup(
             rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, rightPanelLayout.createSequentialGroup()
-                .addGap(43, 43, 43)
+                .addGap(8, 8, 8)
+                .addComponent(QRcodeButton)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1)
                 .addGap(29, 29, 29)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -286,9 +302,9 @@ public class Dashboard extends javax.swing.JFrame {
                 .addComponent(billPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(56, 56, 56)
                 .addGroup(rightPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(saveButton)
-                    .addComponent(clearButton))
-                .addGap(35, 35, 35))
+                    .addComponent(clearButton)
+                    .addComponent(saveButton))
+                .addGap(41, 41, 41))
         );
 
         jLabel15.setFont(new java.awt.Font("Matura MT Script Capitals", 1, 36)); // NOI18N
@@ -521,8 +537,8 @@ public class Dashboard extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jLabel15)
                         .addGap(58, 58, 58)
-                        .addComponent(jLabel3)
-                        .addGap(80, 80, 80)))
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(69, 69, 69)))
                 .addComponent(rightPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(16, 16, 16))
         );
@@ -545,8 +561,7 @@ public class Dashboard extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap())
+                            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))))
         );
 
         pack();
@@ -568,7 +583,12 @@ public class Dashboard extends javax.swing.JFrame {
             String password = "Bk2k5@#$";
             Connection conn = DriverManager.getConnection(url, userName, password);
             Statement st = conn.createStatement();
-
+            String createTableQuery = "CREATE TABLE IF NOT EXISTS products ("
+                            + "product_id INT PRIMARY KEY, "
+                            + "product_name VARCHAR(50), "
+                            + "product_price INT)";
+    
+            st.executeUpdate(createTableQuery);
             // Check if the 'products' table contains any records
             String checkRecordsQuery = "SELECT COUNT(*) FROM products";
             ResultSet rs = st.executeQuery(checkRecordsQuery);
@@ -710,6 +730,19 @@ public class Dashboard extends javax.swing.JFrame {
         String userName = "root";
         String password = "Bk2k5@#$";
         Connection conn = DriverManager.getConnection(url, userName, password);
+        
+        String createTableQuery = "CREATE TABLE IF NOT EXISTS bills ("
+                + "billNo VARCHAR(10) PRIMARY KEY, "
+                + "tea INT, "
+                + "momo INT, "
+                + "grilled_chicken INT, "
+                + "coke INT, "
+                + "coffee INT, "
+                + "burger INT, "
+                + "total_quantity INT, "
+                + "total_price INT)";
+        Statement st = conn.createStatement();
+        st.executeUpdate(createTableQuery);
 
         String billNumber = generateBillNumber();
         int teaQty = teaComboBox.getSelectedIndex();
@@ -967,6 +1000,12 @@ public class Dashboard extends javax.swing.JFrame {
         billPanel.repaint();
     }//GEN-LAST:event_editButtonActionPerformed
 
+    private void QRcodeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_QRcodeButtonActionPerformed
+        // TODO add your handling code here:
+        QRcode qr = new QRcode();
+        qr.setVisible(true);
+    }//GEN-LAST:event_QRcodeButtonActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -1006,6 +1045,7 @@ public class Dashboard extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton QRcodeButton;
     private javax.swing.JPanel billPanel;
     private javax.swing.JComboBox<String> burgerComboBox;
     private javax.swing.JLabel burgerLabel;
